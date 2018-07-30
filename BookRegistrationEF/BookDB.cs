@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,8 +59,35 @@ namespace BookRegistrationEF
             context.Book.Add(b);
 
             // Let EF know the book already exists
-            context.Entry(b).State = System.Data.Entity.EntityState.Modified;
+            context.Entry(b).State = EntityState.Modified;
 
+            context.SaveChanges();
+        }
+
+        public static void Delete(Book b)
+        {
+            var context = new BookContext();
+            context.Book.Add(b);
+
+            //  
+            context.Entry(b).State = EntityState.Deleted;
+
+            context.SaveChanges();
+        }
+
+        // Connected scenario where the DB context
+        // tracks entities in memory
+        public static void Delete(string isbn)
+        {
+            var context = new BookContext();
+
+            // Pull book from DB to make EF track it
+            Book bookToDelete = context.Book.Find(isbn);
+
+            // Mark book as deleted
+            context.Book.Remove(bookToDelete);
+
+            // Send delete query to DB
             context.SaveChanges();
         }
     }
