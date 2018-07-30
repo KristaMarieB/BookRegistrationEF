@@ -17,5 +17,20 @@ namespace BookRegistrationEF
 
             return allBooks;
         }
+
+        /// <summary>
+        /// Adds a book to the database
+        /// </summary>
+        /// <param name="b">The book to be added</param>
+        public static void Add(Book b)
+        {
+            BookContext context = new BookContext();
+
+            // assume book is valid
+            context.Book.Add(b);
+
+            // You have to call savechanges
+            context.SaveChanges();
+        }
     }
 }
