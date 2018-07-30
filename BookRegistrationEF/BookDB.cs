@@ -32,5 +32,35 @@ namespace BookRegistrationEF
             // You have to call savechanges
             context.SaveChanges();
         }
+
+        /*
+         * EF will track an object if you pull it
+         * out of the database and then do modifacations
+         * */
+        public static void Update(Book b)
+        {
+            var context = new BookContext();
+
+            // Get book from database
+            Book originalBook = context.Book.Find(b.ISBN);
+
+            originalBook.Price = b.Price;
+            originalBook.Title = b.Title;
+
+            context.SaveChanges();
+        }
+
+        public static void UpdateAlternate(Book b)
+        {
+            var context = new BookContext();
+
+            // Add Book object to current context
+            context.Book.Add(b);
+
+            // Let EF know the book already exists
+            context.Entry(b).State = System.Data.Entity.EntityState.Modified;
+
+            context.SaveChanges();
+        }
     }
 }

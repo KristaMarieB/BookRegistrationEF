@@ -22,5 +22,6 @@ namespace BookRegistrationEF
             context.Customer.Add(c);
             context.SaveChanges();
         }
+        
     }
 }
